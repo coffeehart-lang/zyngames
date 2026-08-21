@@ -328,8 +328,16 @@ fun HostPrompterBanner(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("🤫", fontSize = 20.sp)
-            Spacer(modifier = Modifier.width(8.dp))
+            androidx.compose.foundation.Image(
+                painter = androidx.compose.ui.res.painterResource(id = com.example.R.drawable.img_master_host_avatar),
+                contentDescription = "Master Host Avatar",
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, ElectricGold, CircleShape),
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.width(10.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "HOST TELEPROMPTER (SECRET ANSWERS)",
