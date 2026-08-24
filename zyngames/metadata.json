@@ -1,0 +1,6 @@
+{
+  "name": "ZynGames Arena",
+  "description": "Live interactive multiplayer game show arena with automated random team matchmaking, private squad comms, live stage playing boards, and solo showdowns.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
