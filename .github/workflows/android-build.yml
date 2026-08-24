@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
     - uses: actions/checkout@v4
@@ -22,11 +24,19 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew || true
 
-    - name: Build Android App Bundle (AAB)
-      run: ./gradlew :app:bundleRelease --stacktrace || gradle :app:bundleRelease --stacktrace
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v3
+
+    - name: Build Android App Bundle (AAB) & APK
+      env:
+        JAVA_TOOL_OPTIONS: "--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED"
+      run: |
+        ./gradlew :app:bundleRelease :app:assembleRelease --stacktrace || gradle :app:bundleRelease :app:assembleRelease --stacktrace
 
     - name: Upload AAB Bundle Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-release-bundle
-        path: app/build/outputs/bundle/release/app-release.aab
+        path: |
+          app/build/outputs/bundle/release/*.aab
+          app/build/outputs/apk/release/*.apk
