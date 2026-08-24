@@ -27,11 +27,11 @@ jobs:
     - name: Set up Gradle
       uses: gradle/actions/setup-gradle@v3
 
-    - name: Build Android App Bundle (AAB) & APK
+    - name: Build Android App Bundle (AAB)
       env:
-        JAVA_TOOL_OPTIONS: "--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED"
+        JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED"
       run: |
-        ./gradlew :app:bundleRelease :app:assembleRelease --stacktrace || gradle :app:bundleRelease :app:assembleRelease --stacktrace
+        ./gradlew :app:bundleRelease -Djava.awt.headless=true --stacktrace || gradle :app:bundleRelease -Djava.awt.headless=true --stacktrace
 
     - name: Upload AAB Bundle Artifact
       uses: actions/upload-artifact@v4
