@@ -19,19 +19,15 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew || true
 
-    - name: Set up Gradle
-      uses: gradle/actions/setup-gradle@v3
-
     - name: Build Android App Bundle (AAB)
       env:
-        JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED"
+        JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true"
       run: |
-        ./gradlew :app:bundleRelease -Djava.awt.headless=true --stacktrace || gradle :app:bundleRelease -Djava.awt.headless=true --stacktrace
+        ./gradlew :app:bundleRelease --no-daemon -Djava.awt.headless=true -Pksp.incremental=false --stacktrace
 
     - name: Upload AAB Bundle Artifact
       uses: actions/upload-artifact@v4
@@ -39,4 +35,3 @@ jobs:
         name: app-release-bundle
         path: |
           app/build/outputs/bundle/release/*.aab
-          app/build/outputs/apk/release/*.apk
